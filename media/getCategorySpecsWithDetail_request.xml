@@ -1,0 +1,9 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:cat="http://category.anonymous.ws.listingapi.gg.com">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <cat:getCategorySpecsWithDetail>
+         <categoryCode>nbn</categoryCode>
+         <lang>tr</lang>
+      </cat:getCategorySpecsWithDetail>
+   </soapenv:Body>
+</soapenv:Envelope>
