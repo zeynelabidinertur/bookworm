@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="18ae01e8-7b94-4115-a3ff-1d274eaed0d6" name="Default" comment="" />
+    <list default="true" id="18ae01e8-7b94-4115-a3ff-1d274eaed0d6" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/media/GG Bilgileri" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/media/black-background-ohio_copy.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/media/distributor (1).sql" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/media/getCategorySpecsWithDetail_request.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/media/indir.jpg" afterPath="" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
