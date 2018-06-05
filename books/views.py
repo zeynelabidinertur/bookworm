@@ -91,6 +91,7 @@ def add_book(request):
         return render(request, 'books/user_index.html', {'all_books': curr_user.books.all()})
     return redirect('books:login')
 
+
 def book_details(request, book_id):
     curr_user = request.user
     curr_book = Book.objects.get(pk=book_id)
