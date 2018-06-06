@@ -4,6 +4,8 @@ from django.shortcuts import render, redirect
 from django.views.generic import View
 from .models import Book
 from django.core.files.storage import FileSystemStorage
+from pprint import pprint
+
 
 # Create your views here.
 
@@ -37,11 +39,12 @@ class UserFormView(View):
 
         return render(request, self.template_name, {'form': form})
 
+
 def user_index(request):
     curr_user = request.user
 
     if curr_user.is_active:
-        print (curr_user.books.all())
+        print(curr_user.books.all())
         return render(request, 'books/user_index.html', {'all_books': curr_user.books.all, "curr_user": True})
     else:
         return redirect('books:login')
@@ -57,14 +60,14 @@ def add_book(request):
 
             try:
                 book_cover = request.FILES['book_cover']
-            except:
+            except():
                 book_cover = False
 
             try:
                 book_file = request.FILES['book_file']
                 fs = FileSystemStorage()
                 book_file = fs.save(book_file.name, book_file)
-            except:
+            except():
                 book_file = False
 
             if not book_title:
@@ -96,5 +99,48 @@ def book_details(request, book_id):
     curr_user = request.user
     curr_book = Book.objects.get(pk=book_id)
     book_content = curr_book.book_file.read()
-
-    return render(request, 'books/book_details.html', {'book_content': book_content})
+    word_list = {"DIPLOBLASTIC": "Characterizing the ovum when it has two primary germinallayers.",
+                 "DEFIGURE": "To delineate. [Obs.]These two stones as they are here defigured. Weever.",
+                 "LOMBARD": "Of or pertaining to Lombardy, or the inhabitants of Lombardy.",
+                 "BAHAISM": "The religious tenets or practices of the Bahais.",
+                 "FUMERELL": "See Femerell.",
+                 "ROYALET": "A petty or powerless king. [R.]there were at this time two other royalets, as only kings by hisleave. Fuller.",
+                 "TROPHIED": "Adorned with trophies.The trophied arches, storied halls, invade. Pope.",
+                 "ZEQUIN": "See Sequin.",
+                 "MILLWRIGHT": "A mechanic whose occupation is to build mills, or to set uptheir machinery.",
+                 "PHOTOGRAPHOMETER": "An instrument for determining the senluminous rays.",
+                 "SCHEELIUM": "The metal tungsten. [Obs.]",
+                 "ALVEOLATE": "Deeply pitted, like a honeycomb.",
+                 "LIMULUS": "The only existing geno Molucca crab, king crab,horseshoe crab, and horsefoot.",
+                 "OSMUND": "A fern of the genus O (Osmuronds, ofteas been used in stiffening linen.",
+                 "POTTEEN": "See Poteen.",
+                 "UNDERRUN": "To run or pass undein, or of examiningit.",
+                 "EMPLASTIC": "Fit to be applied as a plaster; glutinous; adhesive; as,emplastic applications.",
+                 "RHYTHMICS": "The department of musical science which treats of the length ofsounds.",
+                 "PLEUROPTERA": "A group of Isectivora, including the colugo.",
+                 "UNBLOODY": "Not bloody. Dryden. Unbloody sacrifice. (a) A she Mass.",
+                 "CINCINNUS": "A form of monochasium in which the lateral branche false axis; -- called alsoscoal (#), a.",
+                 "INDOCILITY": "The quality or state of beiness.The stiffness and indocility of the Pharisees. W. Montagu.",
+                 "TELEOCEPHIAL": "An extensive order ood, perch, etc.",
+                 "CANEBRAKE": "A thicket of canes. Ellicott.",
+                 "QUININIC": "Pertaining to, or designating, a nitrogeny the oxidation of quinine.",
+                 "RICINIC": "Pertaining to, or derived from, castor oil; formerly,designating an acid now called ricinoleic acid.",
+                 "TELLURAL": "Of or pertaining to the earth. [R.]",
+                 "OTHERNESS": "The quality or state of being other or different; alterity;oppositeness.",
+                 "FASCICLE": "A small bundle or collection; a compact cluster; as, a fascicleof fibers; a fascicle of flowers or roots.",
+                 "REENJOYMENT": "Renewed enjoiment.",
+                 "LONGIROSTER": "One of the Longirostres.",
+                 "RHAPSODIZE": "To utter as a rhapsody, or in the manner of a rhapsody Sterne.",
+                 "WATER VIOLET": "See under Violet.",
+                 "TRUNCHEONED": "Having a truncheon.",
+                 "UNDERWENT": "imp. of Undergo.",
+                 "APITPAT": "With quick beating or palpitation; pitapat. Congreve.",
+                 "MISTITLE": "To call by a wrong title.",
+                 "PERSUASIBILITY": "Capability of being persuaded. Hawthorne.",
+                 "RAFTING": "The business of making or managing rafts.",
+                 "PROTEROGYNOUS": "Having the pistil come to maturiterandrous.",
+                 "MULTIFACED": "Having many faces."}
+    return render(request, 'books/book_details.html', {'book': curr_book,
+                                                       'user': curr_user,
+                                                       'book_content': book_content,
+                                                       'word_list': word_list})

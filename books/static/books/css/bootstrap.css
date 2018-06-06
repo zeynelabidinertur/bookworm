@@ -6581,4 +6581,28 @@ button.close {
     display: none !important;
   }
 }
+
+.cloud {
+    display: inline;
+    list-style-type: none;
+    width: 400px;
+}
+.cloud li {
+    list-style: none;
+    display: inline;
+}
+.cloud li:nth-of-type(3n + 1) {
+    font-size: 0.3em;
+}
+.cloud li:nth-of-type(4n+3) {
+    font-size: 0.50em;
+}
+.cloud li:nth-of-type(5n - 3) {
+    font-size: 0.75em;
+}
+
+#known_words{
+  overflow: auto;
+  text-align: center;
+}
 /*# sourceMappingURL=bootstrap.css.map */

@@ -1,7 +1,40 @@
 {% extends 'books/base.html' %}
 {% load static %}
-{% block body %}
-    <div style="margin: 100px">
-        <h5>{{ book_content }}</h5>
-    </div>
+{% block title %}
+    {{ request.user.username }}'s Bookshelf
 {% endblock %}
+
+{% block body %}
+    <div class="col-lg-8" style="margin-top: 100px">
+        <h2>{{ book.book_title }}</h2>
+        <p>{{ book_content }}</p>
+    </div>
+    <div class="col-lg-4" style="margin-top: 100px">
+
+        <div class="col-lg-2" style="width: 200px; height: 400px; margin-right: 5px">
+            <h1 style="text-align: center">Known Words</h1>
+            <input placeholder="Search an unknown word" type="search" autocomplete="true">
+            <div id="known_words" style="width: inherit; height: inherit">
+                <ul class="cloud">
+                    {% for word, mean in word_list.items %}
+                        <li><a title="{{ mean }}" href="#Emien{{ word }}">{{ word | lower }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-lg-2" style="width: 200px; height: 400px; margin-left: 5px">
+            <h1 style="text-align: center">Unknown Words</h1>
+            <input placeholder="Search an unknown word" type="search" autocomplete="true">
+            <div id="known_words" style="width: inherit; height: inherit">
+                <ul class="cloud">
+                    {% for word, mean in word_list.items %}
+                        <li ><a title="{{ mean }}" href="#Emien{{ word }}">{{ word | lower }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+

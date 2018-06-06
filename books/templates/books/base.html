@@ -3,8 +3,7 @@
 <html>
 <head>
 
-    <title>{% if request.user.username %}{{ request.user.username }}'s Library{% else %}NewWords{% endif %}
-    </title>
+    <title>{% block title %}{% endblock %}</title>
     <!--css-->
     <link rel="stylesheet" href="{% static 'books/css/bootstrap.css' %}" type="text/css" media="all"/>
     <link rel="stylesheet" href="{% static 'books/css/mystyle.css' %}" type="text/css" media="all"/>

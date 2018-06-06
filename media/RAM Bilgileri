@@ -1,0 +1,28 @@
+     *-bank:0
+          description: SODIMM Synchronous 2133 MHz (0,5 ns)
+          product: M471A5244BB0-CPB
+          vendor: Samsung
+          physical id: 0
+          serial: 00000000
+          slot: ChannelA-DIMM0
+          size: 4GiB
+          width: 64 bits
+          clock: 2133MHz (0.5ns)
+     *-bank:1
+          description: [empty]
+          physical id: 1
+          slot: ChannelA-DIMM1
+     *-bank:2
+          description: SODIMM Synchronous 2133 MHz (0,5 ns)
+          product: RMSA3230KE68H9F2133
+          vendor: Fujitsu
+          physical id: 2
+          serial: 02114200
+          slot: ChannelB-DIMM0
+          size: 4GiB
+          width: 64 bits
+          clock: 2133MHz (0.5ns)
+     *-bank:3
+          description: [empty]
+          physical id: 3
+          slot: ChannelB-DIMM1

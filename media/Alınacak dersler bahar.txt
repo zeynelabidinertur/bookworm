@@ -1,0 +1,5 @@
+CS 240	  Exploratory Data Analysis	Tuesday Thursday	11:00-12:00 10:00-12:00	ACAD BUILD 5 #5204	MEHMET BAYSAN
+CS 340	  Computer Systems	        Tuesday Thursday	10:00-12:00 11:00-12:00	ACAD BUILD 7 #7204	AHMET BULUT
+
+EECS 432  Mobile Programming	        Friday	                09:00-12:00	        ACAD BUILD 4 #4201	MURAT POLAT
+EECS 436  Embedded System Design	Friday	                14:00-17:00	        ACAD BUILD 4 #4204	BETÜL DEMİRÖZ
