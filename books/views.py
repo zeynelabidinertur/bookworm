@@ -7,8 +7,7 @@ from django.core.files.storage import FileSystemStorage
 from pprint import pprint
 import requests
 import json
-
-# Create your views here.
+from .text import *
 
 
 class UserFormView(View):
@@ -65,25 +64,27 @@ def add_book(request):
                 book_cover = False
 
             try:
-                book_file = request.FILES['book_file']
-                print (book_file)
+                book_file_ = request.FILES['book_file']
                 fs = FileSystemStorage()
-                book_file = fs.save(book_file.name, book_file)
+                book_file = fs.save(book_file_.name, book_file_)
             except():
                 book_file = False
 
             if not book_title:
                 return render(request, 'books/book_form.html', {"not_completed": "not_completed"})
-            #if book_cover:
-             #   fs = FileSystemStorage()
-              #  filename = fs.save(book_cover.name, book_cover)
-            #else:
-             #   filename = '..\media\default_book_cover_logo.jpg'
 
-            book_1 = curr_user.books.create(book_title=book_title, book_author=book_author,
-                                                book_cover=book_cover, book_file = book_file)
+            book_1 = curr_user.books.create(book_title=book_title, book_author=book_author, book_cover=book_cover,
+                                            book_file=book_file)
             book_1.save()
             curr_user.save()
+            book_content = book_1.book_file.read()
+            book_1.book_content = book_content
+
+            words_list, unknown_words, outside_words = extract_words(book_content)
+            book_1.all_words = words_list
+            book_1.unknown_words = unknown_words
+            book_1.outside_words = outside_words
+            book_1.save()
             return render(request, 'books/user_index.html', {'all_books': curr_user.books.all, "curr_user": True})
 
         else:
@@ -96,6 +97,7 @@ def add_book(request):
         return render(request, 'books/user_index.html', {'all_books': curr_user.books.all()})
     return redirect('books:login')
 
+
 def word_meaning(word):
     app_id = '17160844'
     app_key = '55f44d4c774f7e52ebffd1b8be3e73e9'
@@ -103,12 +105,8 @@ def word_meaning(word):
     #word = 'Ace'
     url = 'https://od-api.oxforddictionaries.com:443/api/v1/entries/' + language + '/' + word.lower() + '/' + 'definitions'
     r = requests.get(url, headers={'app_id': app_id, 'app_key': app_key})
-    print(
-    "json \n" + json.dumps(r.json()["results"][0]["lexicalEntries"][0]["entries"][0]["senses"][0]["definitions"][0]))
-
     meaning_of_word = json.dumps(r.json()['results'][0]["lexicalEntries"][0]["entries"][0]["senses"][0]["definitions"][0])
     return meaning_of_word
-
 def word_list_meaning(a_word_list):
     word_dict = dict()
     for word in a_word_list:
@@ -119,8 +117,24 @@ def word_list_meaning(a_word_list):
     return word_dict
 
 
+def book_details(request, book_id):
+    curr_user = request.user
+    curr_book = Book.objects.get(pk=book_id)
+    book_content = curr_book.book_file.read().decode('utf-8')
+    known_words = str(curr_book.known_words).split()
+    unknown_words = str(curr_book.unknown_words).split()
+    red_color = "red"
+    black_color = "black"
+    book_content = [(word, word_meaning(word), red_color) if word in unknown_words else(word, "", black_color) for
+                    word in book_content.split()]
 
+    return render(request, 'books/book_details.html', {'book': curr_book,
+                                                       'user': curr_user,
+                                                       'book_content': book_content,
+                                                       'known_words': known_words,
+                                                       'unknown_words': unknown_words})
 
+'''
 def book_details(request, book_id):
     curr_user = request.user
     curr_book = Book.objects.get(pk=book_id)
@@ -174,3 +188,5 @@ def book_details(request, book_id):
                                                        'user': curr_user,
                                                        'book_content': book_content,
                                                        'word_list': word_dict})
+
+'''
