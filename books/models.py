@@ -22,4 +22,6 @@ class Book(models.Model):
 
 class MyUser(AbstractUser):
     books = models.ManyToManyField(Book, blank=True, null=True)
+    known_words_file = models.FileField(storage=fileStorage, blank=True, null=True)
+    known_words = models.TextField(blank=True, null=True)
 

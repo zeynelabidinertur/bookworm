@@ -2,10 +2,10 @@ from django.contrib.auth import authenticate, login
 from .forms import RegisterForm
 from django.shortcuts import render, redirect
 from django.views.generic import View
-from .models import Book
+from .models import Book, MyUser
 from django.core.files.storage import FileSystemStorage
 from pprint import pprint
-#import requests
+import requests
 import json
 from .text import *
 
@@ -80,8 +80,9 @@ def add_book(request):
             book_content = book_1.book_file.read()
             book_1.book_content = book_content
 
-            words_list, unknown_words, outside_words = extract_words(book_content)
+            words_list, known_words, unknown_words, outside_words = extract_words(request, book_content)
             book_1.all_words = words_list
+            book_1.known_words = known_words
             book_1.unknown_words = unknown_words
             book_1.outside_words = outside_words
             book_1.save()
@@ -90,6 +91,40 @@ def add_book(request):
         else:
             if request.user.is_active:
                 return render(request, 'books/book_form.html')
+            else:
+                return redirect('books:login')
+
+    if curr_user.is_active:
+        return render(request, 'books/user_index.html', {'all_books': curr_user.books.all()})
+    return redirect('books:login')
+
+
+def add_known_words(request):
+    curr_user = request.user
+
+    if curr_user.is_active:
+        if request.method == "POST":
+
+            try:
+                book_file_ = request.FILES['book_file']
+                fs = FileSystemStorage()
+                book_file = fs.save(book_file_.name, book_file_)
+            except():
+                book_file = False
+
+            curr_user.known_words_file = book_file
+            curr_user.save()
+            book_content = curr_user.known_words_file.read()
+
+            known_words = extract_known_words(book_content)
+            curr_user.known_words = known_words
+            curr_user.save()
+
+            return render(request, 'books/user_index.html', {'all_books': curr_user.books.all, "curr_user": True})
+
+        else:
+            if request.user.is_active:
+                return render(request, 'books/add_known_words.html')
             else:
                 return redirect('books:login')
 
@@ -125,9 +160,13 @@ def word_list_meaning(a_word_list):
 def book_details(request, book_id):
     curr_user = request.user
     curr_book = Book.objects.get(pk=book_id)
-    book_content = curr_book.book_file.read()
+    book_content = curr_book.book_file.read().decode('utf-8')
     known_words = str(curr_book.known_words).split()
     unknown_words = str(curr_book.unknown_words).split()
+    red_color = "red"
+    black_color = "black"
+    book_content = [(word, word_meaning(word), red_color) if word in unknown_words else(word, "", black_color) for
+                    word in book_content.split()]
 
     return render(request, 'books/book_details.html', {'book': curr_book,
                                                        'user': curr_user,

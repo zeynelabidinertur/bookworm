@@ -105,7 +105,7 @@
                     </a>
                 </li>-->
                 <li>
-                    <input style='width: 570px; height: 40px; border-radius: 10px; align: center; margin: 5px 0px;'
+                    <input style='width: 400px; height: 40px; border-radius: 10px; align: center; margin: 5px 0px;'
                            type="text" id="myInput" onkeyup="myFunction()"
                            placeholder="Search for books, articles, authors..">
 
@@ -121,6 +121,11 @@
                     <li class="">
                         <a href="{% url 'books:add-book' %}">
                             <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp Add Book
+                        </a>
+                    </li>
+                    <li class="">
+                        <a href="{% url 'books:add-known-words' %}">
+                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp Add Known Words
                         </a>
                     </li>
                 {% endif %}
