@@ -16,8 +16,8 @@
             <input placeholder="Search an unknown word" type="search" autocomplete="true">
             <div id="known_words" style="width: inherit; height: inherit">
                 <ul class="cloud">
-                    {% for word, mean in word_list.items %}
-                        <li><a title="{{ mean }}" href="#Emien{{ word }}">{{ word | lower }}</a></li>
+                    {% for word in known_words %}
+                        <li><a title="" href="#Emien{{ word }}">{{ word | lower }}</a></li>
                     {% endfor %}
                 </ul>
             </div>
@@ -28,8 +28,8 @@
             <input placeholder="Search an unknown word" type="search" autocomplete="true">
             <div id="known_words" style="width: inherit; height: inherit">
                 <ul class="cloud">
-                    {% for word, mean in word_list.items %}
-                        <li ><a title="{{ mean }}" href="#Emien{{ word }}">{{ word | lower }}</a></li>
+                    {% for word in unknown_words %}
+                        <li ><a title="" href="#Emien{{ word }}">{{ word | lower }}</a></li>
                     {% endfor %}
                 </ul>
             </div>
