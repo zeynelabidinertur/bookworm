@@ -49,7 +49,6 @@ def user_index(request):
     else:
         return redirect('books:login')
 
-
 def add_book(request):
     curr_user = request.user
 
@@ -65,6 +64,7 @@ def add_book(request):
 
             try:
                 book_file_ = request.FILES['book_file']
+
                 fs = FileSystemStorage()
                 book_file = fs.save(book_file_.name, book_file_)
             except():
@@ -72,6 +72,7 @@ def add_book(request):
 
             if not book_title:
                 return render(request, 'books/book_form.html', {"not_completed": "not_completed"})
+
 
             book_1 = curr_user.books.create(book_title=book_title, book_author=book_author, book_cover=book_cover,
                                             book_file=book_file)
@@ -133,28 +134,33 @@ def add_known_words(request):
     return redirect('books:login')
 
 
-def word_meaning(word):
+def word_meaning(request, word):
+    curr_user = request.user
+    try:
+        meaning_of_word = curr_user.meaning_dict[word]
+        return meaning_of_word
+    except:
+        pass
     app_id = '17160844'
     app_key = '55f44d4c774f7e52ebffd1b8be3e73e9'
     language = 'en'
     #word = 'Ace'
     url = 'https://od-api.oxforddictionaries.com:443/api/v1/entries/' + language + '/' + word.lower() + '/' + 'definitions'
-    r = requests.get(url, headers={'app_id': app_id, 'app_key': app_key})
-    print(
-    "json \n" + json.dumps(r.json()["results"][0]["lexicalEntries"][0]["entries"][0]["senses"][0]["definitions"][0]))
-
-    meaning_of_word = json.dumps(r.json()['results'][0]["lexicalEntries"][0]["entries"][0]["senses"][0]["definitions"][0])
+    try:
+        r = requests.get(url, headers={'app_id': app_id, 'app_key': app_key})
+        meaning_of_word = json.dumps(r.json()['results'][0]["lexicalEntries"][0]["entries"][0]["senses"][0]["definitions"][0])
+        curr_user.meaning_dict[word] = meaning_of_word
+    except:
+        meaning_of_word = "UNKNOWN WORD"
     return meaning_of_word
 
 
-def word_list_meaning(a_word_list):
-    word_dict = dict()
-    for word in a_word_list:
-        try:
-            word_dict[word] = word_meaning(word)
-        except:
-            word_dict[word] = "UNKNOWN WORD"
-    return word_dict
+#def word_list_meaning(a_word_list):
+#    word_dict = dict()
+#    request = "hey"
+#    for word in a_word_list:
+#        word_dict[word] = word_meaning(request,word)
+#    return word_dict
 
 
 def book_details(request, book_id):
@@ -165,7 +171,7 @@ def book_details(request, book_id):
     unknown_words = str(curr_book.unknown_words).split()
     red_color = "red"
     black_color = "black"
-    book_content = [(word, word_meaning(word), red_color) if word in unknown_words else(word, "", black_color) for
+    book_content = [(word, word_meaning(request, word), red_color) if word in unknown_words else(word, "", black_color) for
                     word in book_content.split()]
 
     return render(request, 'books/book_details.html', {'book': curr_book,
