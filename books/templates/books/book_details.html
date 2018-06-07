@@ -5,36 +5,50 @@
 {% endblock %}
 
 {% block body %}
-    <div class="col-lg-8" style="margin-top: 100px">
+    <div class="col-lg-9" style="margin-top: 100px">
         <h2>{{ book.book_title }}</h2>
-        <p>{% for word, meaning, color in book_content %}<span title="{{ meaning }}" style="color: {{ color }};font-size: 30px;font-family: 'Times New Roman'">{{word}} </span>{% endfor %}</p>
+        <p style="overflow: auto; height: 400px">{% for word, meaning, color in book_content %}<span title="{{ meaning }}"
+                                                               style="color: {{ color }}">{{ word }} </span>{% endfor %}
+        </p>
     </div>
-    <div class="col-lg-4" style="margin-top: 100px">
+    <div class="col-lg-3 bs-component" style="margin-top: 100px">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#home" data-toggle="tab" aria-expanded="true">Known</a></li>
+            <li class=""><a href="#profile" data-toggle="tab" aria-expanded="false">Unknown</a></li>
+            <li class=""><a href="#suggestion" data-toggle="tab" aria-expanded="false">Suggested</a></li>
+        </ul>
+        <div id="myTabContent" class="tab-content">
+            <div class="tab-pane fade active in" id="home">
+                <input placeholder="Search a known word" type="search" autocomplete="true" style="width: 100%">
 
-        <div class="col-lg-2" style="width: 200px; height: 400px; margin-right: 5px">
-            <h1 style="text-align: center">Known Words</h1>
-            <input placeholder="Search an unknown word" type="search" autocomplete="true">
-            <div id="known_words" style="width: inherit; height: inherit">
-                <ul class="cloud">
-                    {% for word in known_words %}
-                        <li><a title="" href="javascript:alert('Hello World!');">{{ word | lower }}</a></li>
-                    {% endfor %}
-                </ul>
+                <div id="known_words" style="width: inherit; height: inherit">
+                    <ul class="cloud">
+                        {% for word, mean in known_words.items %}
+                            <li><a title="{{ mean }}" >{{ word | lower }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="profile">
+                <input placeholder="Search an unknown word" type="search" autocomplete="true" style="width: 100%">
+                <div id="known_words" style="width: inherit; height: inherit">
+                    <ul class="cloud">
+                        {% for word in unknown_words %}
+                            <li><a title="" href="#Emien{{ word }}">{{ word | lower }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <div class="tab-pane fade active in" id="suggestion">
+                <div id="known_words" style="width: inherit; height: inherit">
+                    <ul class="cloud">
+                        {% for word, mean in known_words.items %}
+                            <li><a title="{{ mean }}"
+                                   href="javascript:alert('Hello World!');">{{ word | lower }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
             </div>
         </div>
-
-        <div class="col-lg-2" style="width: 200px; height: 400px; margin-left: 5px">
-            <h1 style="text-align: center">Unknown Words</h1>
-            <input placeholder="Search an unknown word" type="search" autocomplete="true">
-            <div id="known_words" style="width: inherit; height: inherit">
-                <ul class="cloud">
-                    {% for word in unknown_words %}
-                        <li ><a title="" href="#Emien{{ word }}">{{ word | lower }}</a></li>
-                    {% endfor %}
-                </ul>
-            </div>
-        </div>
     </div>
-
 {% endblock %}
-

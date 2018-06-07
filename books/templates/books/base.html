@@ -21,11 +21,11 @@
     <script src="{% static 'books/js/jquery.min.js' %}"></script>
     <script src="{% static 'books/js/bootstrap.min.js' %}"></script>
     <!--js-->
-    <!--webfonts-->
-    <link href='//fonts.googleapis.com/css?family=Nova+Round' rel='stylesheet' type='text/css'>
-    <link href='//fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic'
-          rel='stylesheet' type='text/css'>
-    <!--webfonts-->
+{#    <!--webfonts-->#}
+{#    <link href='//fonts.googleapis.com/css?family=Nova+Round' rel='stylesheet' type='text/css'>#}
+{#    <link href='//fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic'#}
+{#          rel='stylesheet' type='text/css'>#}
+{#    <!--webfonts-->#}
     <script src="{% static 'books/js/responsiveslides.min.js' %}"></script>
     <script>
         $(function () {
@@ -75,10 +75,9 @@
 <body {% block background_image %}{% endblock %}>
 <!--header-->
 
-<nav class="navbar navbar-inverse"
+<nav class="navbar navbar-default"
      style="padding: 0px 0px; position: fixed; top: 0; width:100%; overflow: hidden;z-index: 9999;">
     <div class="container-fluid">
-
         <!-- Header -->
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#topNavBar">
