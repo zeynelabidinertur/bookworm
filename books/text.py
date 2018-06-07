@@ -3,7 +3,7 @@ import re
 
 def extract_words(request, file_content):
     words_en = []
-    english_words = open('.\media\words_en.txt')
+    english_words = open('media/words_en.txt')
     for word in english_words:
         words_en.append(word.strip("\n"))
     # "words_list" is a list with tuples as its items. Each tuple's first it number of repetitions
@@ -52,7 +52,7 @@ def extract_words(request, file_content):
 
 def extract_known_words(file_content):
     words_en = []
-    english_words = open('.\media\words_en.txt')
+    english_words = open('media/words_en.txt')
     for word in english_words:
         words_en.append(word.strip("\n"))
     # "words_list" is a list with tuples as its items. Each tuple's first it number of repetitions
