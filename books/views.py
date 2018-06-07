@@ -64,7 +64,6 @@ def add_book(request):
 
             try:
                 book_file_ = request.FILES['book_file']
-
                 fs = FileSystemStorage()
                 book_file = fs.save(book_file_.name, book_file_)
             except():
@@ -72,7 +71,6 @@ def add_book(request):
 
             if not book_title:
                 return render(request, 'books/book_form.html', {"not_completed": "not_completed"})
-
 
             book_1 = curr_user.books.create(book_title=book_title, book_author=book_author, book_cover=book_cover,
                                             book_file=book_file)
@@ -82,9 +80,22 @@ def add_book(request):
             book_1.book_content = book_content
 
             words_list, known_words, unknown_words, outside_words = extract_words(request, book_content)
+
+            end = int(len(words_list.split(',')) / 5)
+            sugested_words_ = words_list.split()
+            sugested_words = []
+            for word in sugested_words_:
+                if word in unknown_words.split():
+                    sugested_words.append(word)
+
+            sugested_words_str = ''
+            for word in sugested_words[:end]:
+                sugested_words_str += word + ' '
+
             book_1.all_words = words_list
             book_1.known_words = known_words
             book_1.unknown_words = unknown_words
+            book_1.sugested_words = sugested_words_str
             book_1.outside_words = outside_words
             book_1.save()
             return render(request, 'books/user_index.html', {'all_books': curr_user.books.all, "curr_user": True})
@@ -118,7 +129,41 @@ def add_known_words(request):
             book_content = curr_user.known_words_file.read()
 
             known_words = extract_known_words(book_content)
-            curr_user.known_words = known_words
+            # curr_user.known_words = known_words
+            # curr_user.save()
+
+            for book in curr_user.books.all():
+                curr_known_words = str(book.known_words).split()
+                curr_unknown_words = str(book.unknown_words).split()
+                curr_sugested_words = str(book.sugested_words).split()
+                new_known_words = known_words.split()
+                a = len(curr_known_words)
+                for word in new_known_words:
+                    if word not in curr_known_words:
+                        curr_known_words.append(word)
+                    if word in curr_unknown_words:
+                        curr_unknown_words.remove(word)
+                    if word in curr_sugested_words:
+                        curr_sugested_words.remove(word)
+
+                known_words = ''
+                unknown_words = ''
+                sugested_words = ''
+                for word in curr_known_words:
+                    known_words += word + ' '
+                book.known_words = known_words
+
+                for word in curr_unknown_words:
+                    unknown_words += word + ' '
+                book.unknown_words = unknown_words
+
+                for word in curr_sugested_words:
+                    sugested_words += word + ' '
+                book.sugested_words = sugested_words
+
+                book.save()
+                curr_user.known_words = known_words
+                curr_user.save()
             curr_user.save()
 
             return render(request, 'books/user_index.html', {'all_books': curr_user.books.all, "curr_user": True})
@@ -169,6 +214,7 @@ def book_details(request, book_id):
     book_content = curr_book.book_file.read().decode('utf-8')
     known_words = str(curr_book.known_words).split()
     unknown_words = str(curr_book.unknown_words).split()
+    sugested_words = str(curr_book.sugested_words).split()
     red_color = "red"
     black_color = "black"
     book_content = [(word, word_meaning(request, word), red_color) if word in unknown_words else(word, "", black_color) for
@@ -178,61 +224,5 @@ def book_details(request, book_id):
                                                        'user': curr_user,
                                                        'book_content': book_content,
                                                        'known_words': known_words,
-                                                       'unknown_words': unknown_words})
-
-'''
-def book_details(request, book_id):
-    curr_user = request.user
-    curr_book = Book.objects.get(pk=book_id)
-    book_content = curr_book.book_file.read().decode('utf-8')
-    a_dict = {"DIPLOBLASTIC": "Characterizing the ovum when it has two primary germinallayers.",
-              "DEFIGURE": "To delineate. [Obs.]These two stones as they are here defigured. Weever.",
-              "LOMBARD": "Of or pertaining to Lombardy, or the inhabitants of Lombardy.",
-              "BAHAISM": "The religious tenets or practices of the Bahais.",
-              "FUMERELL": "See Femerell.",
-              "ROYALET": "A petty or powerless king. [R.]there were at this time two other royalets, as only kings by hisleave. Fuller.",
-              "TROPHIED": "Adorned with trophies.The trophied arches, storied halls, invade. Pope.",
-              "ZEQUIN": "See Sequin.",
-              "MILLWRIGHT": "A mechanic whose occupation is to build mills, or to set uptheir machinery.",
-              "PHOTOGRAPHOMETER": "An instrument for determining the senluminous rays.",
-              "SCHEELIUM": "The metal tungsten. [Obs.]",
-              "ALVEOLATE": "Deeply pitted, like a honeycomb.",
-              "LIMULUS": "The only existing geno Molucca crab, king crab,horseshoe crab, and horsefoot.",
-              "OSMUND": "A fern of the genus O (Osmuronds, ofteas been used in stiffening linen.",
-              "POTTEEN": "See Poteen.",
-              "UNDERRUN": "To run or pass undein, or of examiningit.",
-              "EMPLASTIC": "Fit to be applied as a plaster; glutinous; adhesive; as,emplastic applications.",
-              "RHYTHMICS": "The department of musical science which treats of the length ofsounds.",
-              "PLEUROPTERA": "A group of Isectivora, including the colugo.",
-              "UNBLOODY": "Not bloody. Dryden. Unbloody sacrifice. (a) A she Mass.",
-              "CINCINNUS": "A form of monochasium in which the lateral branche false axis; -- called alsoscoal (#), a.",
-              "INDOCILITY": "The quality or state of beiness.The stiffness and indocility of the Pharisees. W. Montagu.",
-              "TELEOCEPHIAL": "An extensive order ood, perch, etc.",
-              "CANEBRAKE": "A thicket of canes. Ellicott.",
-              "QUININIC": "Pertaining to, or designating, a nitrogeny the oxidation of quinine.",
-              "RICINIC": "Pertaining to, or derived from, castor oil; formerly,designating an acid now called ricinoleic acid.",
-              "TELLURAL": "Of or pertaining to the earth. [R.]",
-              "OTHERNESS": "The quality or state of being other or different; alterity;oppositeness.",
-              "FASCICLE": "A small bundle or collection; a compact cluster; as, a fascicleof fibers; a fascicle of flowers or roots.",
-              "REENJOYMENT": "Renewed enjoiment.",
-              "LONGIROSTER": "One of the Longirostres.",
-              "RHAPSODIZE": "To utter as a rhapsody, or in the manner of a rhapsody Sterne.",
-              "WATER VIOLET": "See under Violet.",
-              "TRUNCHEONED": "Having a truncheon.",
-              "UNDERWENT": "imp. of Undergo.",
-              "APITPAT": "With quick beating or palpitation; pitapat. Congreve.",
-              "MISTITLE": "To call by a wrong title.",
-              "PERSUASIBILITY": "Capability of being persuaded. Hawthorne.",
-              "RAFTING": "The business of making or managing rafts.",
-              "PROTEROGYNOUS": "Having the pistil come to maturiterandrous.",
-              "MULTIFACED": "Having many faces."}
-    a_word_list = list(a_dict.keys())
-    word_dict = a_dict
-    #word_dict = word_list_meaning(a_word_list)
-
-    return render(request, 'books/book_details.html', {'book': curr_book,
-                                                       'user': curr_user,
-                                                       'book_content': book_content,
-                                                       'word_list': word_dict})
-
-'''
+                                                       'unknown_words': unknown_words,
+                                                       'sugested_words': sugested_words})

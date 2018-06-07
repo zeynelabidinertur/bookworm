@@ -5,6 +5,7 @@ from newWords import settings
 fileStorage = FileSystemStorage(location=settings.MEDIA_ROOT)
 # Create your models here.
 
+
 class Book(models.Model):
     book_title = models.CharField(max_length=250)
     book_author = models.CharField(max_length=250)
@@ -14,6 +15,7 @@ class Book(models.Model):
     all_words = models.TextField(blank=True, null=True)
     known_words = models.TextField(blank=True, null=True)
     unknown_words = models.TextField(blank=True, null=True)
+    sugested_words = models.TextField(blank=True, null=True)
     outside_words = models.TextField(blank=True, null=True)
 
     def __str__(self):
