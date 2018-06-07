@@ -6866,7 +6866,7 @@ button.close {
     font-size: 0.75em;
 }
 
-#known_words{
+#words{
   overflow: auto;
   text-align: center;
 }
