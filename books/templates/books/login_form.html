@@ -1,5 +1,7 @@
 {% extends 'books/base.html' %}
 {% block body %}
+            {% block logo %}"../../../media/logo.png"{% endblock %}
+
 <form action='#' method='POST'> {% csrf_token %}
     <div >
         <label for='username'> Username </label>

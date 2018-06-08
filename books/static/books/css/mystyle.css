@@ -4,7 +4,7 @@ License: Creative Commons Attribution 3.0 Unported
 License URL: http://creativecommons.org/licenses/by/3.0/
 --*/
 body {
-    font-family: 'Open Sans', sans-serif;
+    /*font-family: 'Open Sans', sans-serif;*/
 }
 
 body a {
@@ -23,7 +23,7 @@ ul {
 h1, h2, h3, h4, h5, h6 {
     margin: 0;
     padding: 0;
-    font-family: 'Nova Round', cursive;
+    /*font-family: 'Nova Round', cursive;*/
 }
 
 p {
@@ -145,7 +145,7 @@ ul.nav1 {
     margin: 0px 10px;
     transition: .5s all;
     text-decoration: none;
-    font-family: 'Nova Round', cursive;
+    /*font-family: 'Nova Round', cursive;*/
     font-weight: 600;
 }
 
@@ -702,7 +702,7 @@ h2.tittle {
 .callbacks_tabs a:after {
     content: "\f111";
     font-size: 0;
-    font-family: FontAwesome;
+    /*font-family: FontAwesome;*/
     visibility: visible;
     display: block;
     height: 8px;
@@ -1628,7 +1628,7 @@ ul.callbacks_tabs.callbacks1_tabs {
 }
 
 .navbar-brand {
-    font-family: 'Satisfy', cursive;
+    /*font-family: 'Satisfy', cursive;*/
 }
 
 .album_5 {
