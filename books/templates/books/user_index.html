@@ -4,24 +4,27 @@
     <div class="page-header">
         <h1 style="padding: 20px 0px 0px 20px">{{ request.user.username }}'s Bookshelf</h1>
     </div>
-    <ul style="padding-top: 100px; margin-left: 51px">
+    <ul style="padding-top: 50px; margin-left: 51px">
         {% for book in all_books %}
             <li style="display:inline-block">
                 <div class="gallery"
-                     style="background-color: tan; opacity: 0.9; margin:20px; padding:10px; height:350px; width: 270px; text-align: center; border-radius: 10px;">
+                     style="background: url('../../../media/book.png');background-size: 200px;
+                     background-repeat: no-repeat; height:350px; width: 270px; text-align: center; border-radius: 10px;">
                     <a href="{% url 'books:book-details' book.id %}">
-                        <img src="{{ book.book_cover.url }}" style="width: 245px;height: 250px;">
-                    </a>
-                    <div class="desc" style="overflow:hidden; text-overflow: ellipsis;"><a
-                            href="#"
-                            style="white-space: nowrap; text-overflow: ellipsis; text-align: center;">{{ book.book_title }}
-                        <br> {{ book.book_author }}</a></div>
+                        <h1 style="align-content: center; font-size: 40px; width: 73%; color: #e2c50f">{{ book.book_title }}</h1>
+{#                        <img src="{{ book.book_cover.url }}" style="width: 245px;height: 250px;">#}
 
-                    <a href="#" type="submit" class="glyphicon glyphicon-edit btn btn-info"> Update</a>
+                    </a>
+                    <div class="desc" style="overflow:hidden; text-overflow: ellipsis;"><p style="white-space: nowrap;
+                    text-overflow: ellipsis; text-align: center; width: 73%; color: white">{{ book.book_author }}</p></div>
+
+                    <a href="#" type="submit" class="glyphicon glyphicon-edit btn btn-info"
+                       style="margin: 30% 0% 0% -25%"> Update</a>
                     <form action="#" method="post" style="display:inline;">
                         {% csrf_token %}
-                        <input type="hidden" name="book_id" value="{{ book_id }}"/>
-                        <a href="#" type="submit" class="glyphicon glyphicon-trash btn btn-primary"> Delete</a>
+                        <input type="hidden" name="book_id" value="{{ book_id }}" />
+                        <a href="#" type="submit" class="glyphicon glyphicon-trash btn btn-primary"
+                           style="margin: 30% 0% 0% 0%"> Delete</a>
                     </form>
                 </div>
 
